@@ -1,6 +1,8 @@
 // App.vue
 <template>
-  <div className="bg-[#3fb984] text-white p-4">Vue</div>
+  <div className="bg-[#3fb984] text-white p-4">
+    <h1 className="text-white">Lista de Tarefas - Vue</h1>
+  </div>
 
   <div class="min-h-screen bg-gradient-to-br from-blue-100 to-gray-200 flex items-center justify-center p-4">
     <div class="bg-white p-6 rounded-xl shadow-2xl w-full max-w-lg transform transition-all hover:shadow-xl">
@@ -40,7 +42,7 @@
             </button>
           </div>
           <div v-else class="flex items-center gap-3">
-            <input type="checkbox" v-model="todo.completed" @change="toggleTodo(todo.id)"
+            <input type="checkbox" v-model="todo.completed" @change="toggleTodoVue(todo.id)"
               class="h-5 w-5 text-blue-600 rounded focus:ring-blue-400" />
             <span @click="startEditing(todo.id, todo.text)" :class="[
               'text-lg cursor-pointer',
@@ -99,7 +101,7 @@ export default defineComponent({
       }
     };
 
-    const toggleTodo = (id: number) => {
+    const toggleTodoVue = (id: number) => {
       store.dispatch(toggleTodo(id));
     };
 
@@ -131,7 +133,7 @@ export default defineComponent({
       editingId,
       editText,
       handleAddTodo,
-      toggleTodo,
+      toggleTodoVue,
       removeTodo,
       startEditing,
       saveEdit,
