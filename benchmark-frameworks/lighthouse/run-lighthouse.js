@@ -19,7 +19,7 @@ async function waitForService(url) {
     await waitPort({ host, port: parseInt(port, 10), timeout: 30000, interval: 1000 });
     console.log(`Service at ${url} is ready`);
 }
-
+      
 async function runLighthouse(url, framework) {
     let chrome;
     try {
