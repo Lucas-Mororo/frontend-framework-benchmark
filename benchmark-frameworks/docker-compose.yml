@@ -47,6 +47,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./results:/results
+      - ./lighthouse/run-lighthouse.js:/app/run-lighthouse.js
     depends_on:
       nginx-react:
         condition: service_healthy
