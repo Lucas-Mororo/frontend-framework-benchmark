@@ -1,0 +1,63 @@
+services:
+  nginx-react:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./react-app/dist:/usr/share/nginx/html
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    networks:
+      - benchmark-net
+
+  nginx-vue:
+    image: nginx:latest
+    ports:
+      - "8081:80"
+    volumes:
+      - ./vue-app/dist:/usr/share/nginx/html
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    networks:
+      - benchmark-net
+
+  nginx-angular:
+    image: nginx:latest
+    ports:
+      - "8082:80"
+    volumes:
+      - ./angular-app/dist/todo-list-angular/browser:/usr/share/nginx/html
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost/" ]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+    networks:
+      - benchmark-net
+
+  lighthouse:
+    build:
+      context: ./lighthouse
+      dockerfile: Dockerfile
+    volumes:
+      - ./results:/results
+      - ./lighthouse/run-lighthouse.js:/app/run-lighthouse.js
+    depends_on:
+      nginx-react:
+        condition: service_healthy
+      nginx-vue:
+        condition: service_healthy
+      nginx-angular:
+        condition: service_healthy
+    networks:
+      - benchmark-net
+
+networks:
+  benchmark-net:
+    driver: bridge

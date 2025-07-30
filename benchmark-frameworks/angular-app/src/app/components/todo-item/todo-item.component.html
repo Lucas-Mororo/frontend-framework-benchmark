@@ -1,0 +1,33 @@
+<div
+  class="flex items-center justify-between p-3 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition duration-150">
+  <div *ngIf="!isEditing" class="flex items-center gap-3">
+    <input type="checkbox" [checked]="todo.completed" (change)="onToggle()"
+      class="h-5 w-5 text-blue-600 rounded focus:ring-blue-400" />
+    <span (dblclick)="startEditing()" [ngClass]="[
+        'text-lg cursor-pointer',
+        todo.completed ? 'line-through text-gray-400' : 'text-gray-700'
+      ]">
+      {{ todo.text }}
+    </span>
+  </div>
+  <div *ngIf="isEditing" class="flex items-center gap-2 w-full">
+    <input type="text" [formControl]="textControl"
+      class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400" />
+    <button (click)="saveEdit()" [disabled]="textControl.invalid"
+      class="bg-green-500 text-white px-3 py-1 rounded-lg hover:bg-green-600 transition duration-150">
+      Salvar
+    </button>
+    <button (click)="cancelEdit()"
+      class="bg-gray-500 text-white px-3 py-1 rounded-lg hover:bg-gray-600 transition duration-150">
+      Cancelar
+    </button>
+  </div>
+  <button *ngIf="!isEditing" (click)="onDelete()"
+    class="text-red-500 hover:text-red-700 font-medium transition duration-150">
+    Excluir
+  </button>
+</div>
+<div *ngIf="isEditing && textControl.invalid && textControl.touched" class="text-red-500 text-sm mt-2">
+  <span *ngIf="textControl.errors?.['required']">O texto da tarefa é obrigatório</span>
+  <span *ngIf="textControl.errors?.['minlength']">O texto deve ter pelo menos 3 caracteres</span>
+</div>
